@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { Input } = require('enquirer');
 
-const novoHead = `
-<head>
+const novoHead = 
+`<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Pedagogia em espaços não escolares</title>
@@ -17,11 +17,8 @@ const novoHead = `
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu" >
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla" >
 	<link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="photoswipe/dist/photoswipe.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://unpkg.com/photoswipe@5.2.2/dist/photoswipe.css">
-</head>
-`;
+</head>`;
 
 async function substituirHeadArquivos() {
     const diretorioAtual = process.cwd();  // Pega o diretório atual onde o script está sendo executado
