@@ -1,0 +1,20 @@
+			</div>
+			</div>
+		</section>
+				<div id="modal-js-example" class="modal">
+					<div class="modal-background"></div>
+					<div class="modal-content">
+						<div class="box">
+							<figure>
+								<img src="" alt="" />
+							</figure>
+						</div>
+					</div>
+					<button class="modal-close is-large" aria-label="close"></button>
+				</div>
+	</body>
+	<script src="./assets/js/scriptTesteDeVideo.js"></script>
+	<script src="https://kit.fontawesome.com/3d79790e2e.js" crossorigin="anonymous"></script>
+	<script src="./assets/js/modal.js"></script>
+	<script src="./assets/js/script.js"></script>
+</html>

@@ -1,42 +1,77 @@
 import tkinter as tk
 from tkinter import filedialog
-from bs4 import BeautifulSoup
 import os
+import re
 
 def iniciar_troca():
     arquivo_entrada = entry_arquivo_entrada.get()
-    nome_livro = entry_nome_livro.get()
     diretorio_saida = entry_diretorio_saida.get()
+    nome_livro = entry_nome_livro.get()
 
     # Verificar se os campos obrigatórios foram preenchidos
-    if arquivo_entrada == '' or nome_livro == '' or diretorio_saida == '':
+    if arquivo_entrada == '' or diretorio_saida == '' or nome_livro == '':
         lbl_status.config(text="Por favor, preencha todos os campos.", fg="red")
         return
 
-    # Ler o conteúdo do arquivo HTML de entrada
-    with open(arquivo_entrada, 'r', encoding='utf-8') as arquivo:
-        conteudoHTML = arquivo.read()
+    try:
+        # Ler o conteúdo do arquivo HTML de entrada
+        with open(arquivo_entrada, 'r', encoding='utf-8') as arquivo:
+            conteudoHTML = arquivo.read()
 
-    # Analisar o conteúdo HTML com BeautifulSoup
-    soup = BeautifulSoup(conteudoHTML, 'html.parser')
+        # Encontrar as seções delimitadas pelas tags <inicio_sec> e </inicio_sec>
+        secoes = re.findall(r'<inicio_sec> inicio</inicio_sec>(.*?)<inicio_sec> fim</inicio_sec>', conteudoHTML, re.DOTALL)
 
-    # Realizar as substituições necessárias
-    for secao in soup.find_all('head'):
-        # Substituir o nome do livro no HTML
-        secao.string.replace_with(nome_livro)
+        # Ler o cabeçalho para a primeira seção
+        with open('header_cap.txt', 'r', encoding='utf-8') as header_file:
+            cabecalho_cap = header_file.read()
 
-    # Obter o HTML modificado
-    novoConteudoHTML = str(soup)
+        # Substituir o nome do livro no cabeçalho
+        cabecalho_cap = cabecalho_cap.replace('(NOME DO LIVRO)', nome_livro)
 
-    # Definir o caminho para o arquivo de saída
-    nome_arquivo_saida = os.path.basename(arquivo_entrada)
-    caminho_arquivo_saida = os.path.join(diretorio_saida, nome_arquivo_saida)
+        # Ler o cabeçalho para as seções subsequentes
+        with open('header_sec.txt', 'r', encoding='utf-8') as header_file:
+            cabecalho_sec = header_file.read()
 
-    # Escrever o novo conteúdo no arquivo de saída
-    with open(caminho_arquivo_saida, 'w', encoding='utf-8') as arquivo_saida:
-        arquivo_saida.write(novoConteudoHTML)
+        # Substituir o nome do livro no cabeçalho
+        cabecalho_sec = cabecalho_sec.replace('(NOME DO LIVRO)', nome_livro)
 
-    lbl_status.config(text="Substituição concluída com sucesso.", fg="green")
+        # Ler o rodapé
+        with open('rodape.txt', 'r', encoding='utf-8') as rodape_file:
+            rodape = rodape_file.read()
+
+        # Gravar cada seção em um arquivo separado
+        for i, secao in enumerate(secoes):
+            # Obter o conteúdo do h2 para esta seção
+            h2_match = re.search(r'<h2[^>]*>(.*?)</h2>', secao, re.IGNORECASE)
+            if h2_match:
+                nome_secao = h2_match.group(1)
+            else:
+                nome_secao = f'Seção {i+1}'
+
+            # Escolher o cabeçalho apropriado para esta seção
+            if i == 0:
+                cabecalho = cabecalho_cap
+            else:
+                cabecalho = cabecalho_sec
+
+            # Substituir o campo 'nome_secao' no cabeçalho da seção
+            cabecalho = cabecalho.replace('(conteudo do h2)', nome_secao)
+
+            # Definir o caminho para o arquivo de saída
+            nome_arquivo_saida = f'secao_{i+1}.html'
+            caminho_arquivo_saida = os.path.join(diretorio_saida, nome_arquivo_saida)
+
+            # Adicionar o rodapé ao final da seção
+            secao_completa = cabecalho + secao + rodape
+
+            # Escrever a seção no arquivo de saída
+            with open(caminho_arquivo_saida, 'w', encoding='utf-8') as arquivo_saida:
+                arquivo_saida.write(secao_completa)
+
+        lbl_status.config(text="Divisão em seções concluída com sucesso.", fg="green")
+
+    except Exception as e:
+        lbl_status.config(text=str(e), fg="red")
 
 
 def selecionar_arquivo():
@@ -52,7 +87,7 @@ def selecionar_diretorio():
 
 # Criar a janela principal
 root = tk.Tk()
-root.title("Marreta Html")
+root.title("Marreta HTML")
 
 # Criar e posicionar os widgets
 lbl_arquivo_entrada = tk.Label(root, text="Arquivo HTML de Entrada:")

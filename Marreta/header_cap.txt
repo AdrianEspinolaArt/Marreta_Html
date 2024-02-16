@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>(NOME DO LIVRO)</title>
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> -->
+	<link rel="stylesheet" href="./assets/css/bulma.min.css">
+	<link rel="stylesheet" href="./assets/css/header-intro.css">
+	<link rel="stylesheet" href="./assets/css/custom.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu" >
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla" >
+	<link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+	<body>
+
+		<section>
+			<div class="hero-body">
+				<div class="faixa">
+					<h1 class="numerofaixa" >1</h1>
+				</div>
+				
+				<div class="h1">
+					<h1 class="header">	
+						(conteudo do h2)
+					  <div class="linha-horizontal"></div>
+					</h1>
+				</div>
+			</div>
+		</section>
+
+		<section class="section is-medium">
+			<div class="container is-max-desktop">
+			<div class="content">
