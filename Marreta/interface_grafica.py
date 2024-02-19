@@ -19,7 +19,7 @@ def iniciar_troca():
             conteudoHTML = arquivo.read()
 
         # Encontrar as seções delimitadas pelas tags <inicio_sec> e </inicio_sec>
-        secoes = re.findall(r'<inicio_sec> inicio</inicio_sec>(.*?)<inicio_sec> fim</inicio_sec>', conteudoHTML, re.DOTALL)
+        secoes = re.findall(r'<inicio_sec>inicio</inicio_sec>(.*?)<inicio_sec>fim</inicio_sec>', conteudoHTML, re.DOTALL)
 
         # Ler o cabeçalho para a primeira seção
         with open('header_cap.txt', 'r', encoding='utf-8') as header_file:
